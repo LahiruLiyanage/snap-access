@@ -9,7 +9,11 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.Socket;
+
+import javax.sound.sampled.*;
 
 public class MainSceneController {
 
@@ -36,5 +40,45 @@ public class MainSceneController {
         imgCamera.imageProperty().bind(task.valueProperty());
         new Thread(task).start();
         task.setOnFailed(e -> System.out.println(e.getSource()));
+    }
+
+    public static void main(String[] args) {
+        try {
+            DatagramSocket socket = new DatagramSocket(8080);
+            byte[] buffer = new byte[1024];
+
+            SourceDataLine speakerLine = setupSpeaker();    // speaker
+            speakerLine.open();
+            speakerLine.start();
+
+            System.out.println("Server is ready to receive and play audio...");
+
+            while (true) {
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+                socket.receive(packet);
+
+                byte[] audioData = packet.getData();
+                System.out.println(new String(audioData));
+                int bytesRead = packet.getLength();
+                if (bytesRead > 0) {
+                    speakerLine.write(audioData, 0, bytesRead);
+                    System.out.println("Received and played " + bytesRead + " bytes of audio data.");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static SourceDataLine setupSpeaker() throws Exception {
+        AudioFormat format = new AudioFormat(16000, 16, 1, true, false);
+        DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
+
+        if (!AudioSystem.isLineSupported(info)) {
+            throw new Exception("Speaker line not supported!");
+        }
+
+        SourceDataLine speakerLine = (SourceDataLine) AudioSystem.getLine(info);
+        return speakerLine;
     }
 }

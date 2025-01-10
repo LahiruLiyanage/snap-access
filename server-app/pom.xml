@@ -28,12 +28,11 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/io.mraa.upm/upm_mic -->
-        <dependency>
+        <!-- dependency>
             <groupId>io.mraa.upm</groupId>
             <artifactId>upm_mic</artifactId>
             <version>1.7.1</version>
-        </dependency>
-
+        </dependency-->
 
         <dependency>
             <groupId>org.openjfx</groupId>
