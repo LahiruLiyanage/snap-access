@@ -17,9 +17,7 @@ public class ScreenShareSceneController {
     Socket socket;
 
     public void initialize() throws Exception {
-        imgScreen.fitWidthProperty().bind(root.widthProperty());
-        imgScreen.fitHeightProperty().bind(root.heightProperty());
-        imgScreen.setPreserveRatio(true);
+
 
         socket = new Socket("127.0.0.1", 10050);
         OutputStream os = socket.getOutputStream();
@@ -34,9 +32,14 @@ public class ScreenShareSceneController {
         int screenHeight = ois.readInt();
 
         Platform.runLater(() -> {
+
             Stage stage = (Stage)root.getScene().getWindow();
-            stage.setWidth(screenWidth);
-            stage.setHeight(screenHeight);
+            imgScreen.fitWidthProperty().bind(stage.widthProperty());
+            imgScreen.fitHeightProperty().bind(stage.heightProperty());
+            imgScreen.setPreserveRatio(true);
+
+            stage.setWidth(screenWidth / 2.);
+            stage.setHeight(screenHeight / 2.);
 //            stage.setFullScreen(true);
         });
 
