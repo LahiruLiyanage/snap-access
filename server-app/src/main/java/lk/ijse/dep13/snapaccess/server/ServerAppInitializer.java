@@ -25,6 +25,8 @@ public class ServerAppInitializer {
                     ObjectOutputStream oos = new ObjectOutputStream(bos);
 
                     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                    System.out.println(screenSize.height);
+                    System.out.println(screenSize.width);
                     int screenWidth = screenSize.width;
                     int screenHeight = screenSize.height;
 
@@ -45,6 +47,21 @@ public class ServerAppInitializer {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }).start();
+
+            new Thread(()->{
+                try {
+                    InputStream is = localSocket.getInputStream();
+                    BufferedInputStream bis = new BufferedInputStream(is);
+                    ObjectInputStream ois = new ObjectInputStream(bis);
+
+                    Point coordinates = (Point) ois.readObject();
+                    Robot robot = new Robot();
+                    robot.mouseMove(coordinates.x, coordinates.y);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }).start();
         }
     }

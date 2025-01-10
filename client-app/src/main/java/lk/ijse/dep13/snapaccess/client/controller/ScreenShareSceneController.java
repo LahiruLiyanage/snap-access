@@ -18,8 +18,7 @@ public class ScreenShareSceneController {
 
     public void initialize() throws Exception {
 
-
-        socket = new Socket("127.0.0.1", 10050);
+        socket = new Socket("192.168.8.144", 10050);
         OutputStream os = socket.getOutputStream();
         BufferedOutputStream bos = new BufferedOutputStream(os);
         ObjectOutputStream oos = new ObjectOutputStream(bos);
@@ -41,6 +40,26 @@ public class ScreenShareSceneController {
             stage.setWidth(screenWidth / 2.);
             stage.setHeight(screenHeight / 2.);
 //            stage.setFullScreen(true);
+            stage.setWidth(screenWidth);
+            stage.setHeight(screenHeight);
+            //stage.setFullScreen(true);
+            System.out.println(stage.getWidth());
+            System.out.println(stage.getHeight());
+            imgScreen.fitWidthProperty().bind(stage.widthProperty());
+            imgScreen.fitHeightProperty().bind(stage.heightProperty());
+//            System.out.println(imgScreen.getFitHeight());
+//            System.out.println(imgScreen.getFitWidth());
+            imgScreen.setPreserveRatio(true);
+        });
+
+        imgScreen.setOnMouseMoved(mouseEvent -> {
+            try{
+                oos.writeObject(new Point((int) mouseEvent.getX(), (int) mouseEvent.getY()));
+                oos.flush();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
         });
 
         Task<Image> task = new Task<>() {
