@@ -12,6 +12,9 @@ public class ServerAppInitializer {
 
     public static void main(String[] args) throws IOException {
 
+        String home = System.getProperty("user.home");
+        File file = new File(home+"/Downloads/");
+
         ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(6060);
@@ -53,6 +56,10 @@ public class ServerAppInitializer {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }).start();
+
+            new Thread(() -> {
+
             }).start();
         }
     }
