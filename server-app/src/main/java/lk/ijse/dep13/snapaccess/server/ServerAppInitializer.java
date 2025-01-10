@@ -7,13 +7,15 @@ import java.io.*;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ServerAppInitializer {
 
     public static void main(String[] args) throws IOException {
 
         String home = System.getProperty("user.home");
-        File file = new File(home+"/Downloads/");
+        File downDir = new File(home+"/Downloads/");
 
         ServerSocket serverSocket;
         try {
@@ -59,7 +61,49 @@ public class ServerAppInitializer {
             }).start();
 
             new Thread(() -> {
+                try {
+                    InputStream is = localSocket.getInputStream();
+                    InputStreamReader isr = new InputStreamReader(is);
+                    BufferedReader br = new BufferedReader(isr);
+                    String username = br.readLine().strip();
+                    if (!(username.length() >= 3 && username.length() <= 10)){
+                        System.out.println(username);
+                        System.out.println("Invalid username");
+                        return;
+                    }
 
+                    LocalDateTime now = LocalDateTime.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                    String date = now.format(formatter);
+
+                    File downFolder = new File(downDir, date);
+                    downFolder.mkdirs();
+
+                    String fileName = br.readLine().strip();
+                    if (fileName.isEmpty()){
+                        System.out.println("Invalid filename");
+                        return;
+                    }
+
+                    File file = new File(downFolder, fileName);
+                    FileOutputStream fos = new FileOutputStream(file);
+                    BufferedOutputStream bos = new BufferedOutputStream(fos);
+                    BufferedInputStream bis = new BufferedInputStream(is);
+
+                    while (true){
+                        byte[] buffer = new byte[1024];
+                        int read = bis.read(buffer);
+                        if (read == -1){
+                            break;
+                        }
+                        bos.write(buffer, 0, read);
+                    }
+                    System.out.printf("File: %s uploaded successfully%n", fileName);
+                    bos.close();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }).start();
         }
     }
