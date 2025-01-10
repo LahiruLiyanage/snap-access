@@ -5,6 +5,7 @@ import javafx.concurrent.Task;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.*;
@@ -33,8 +34,10 @@ public class ScreenShareSceneController {
         int screenHeight = ois.readInt();
 
         Platform.runLater(() -> {
-            root.getScene().getWindow().setWidth(screenWidth);
-            root.getScene().getWindow().setHeight(screenHeight);
+            Stage stage = (Stage)root.getScene().getWindow();
+            stage.setWidth(screenWidth);
+            stage.setHeight(screenHeight);
+//            stage.setFullScreen(true);
         });
 
         Task<Image> task = new Task<>() {
