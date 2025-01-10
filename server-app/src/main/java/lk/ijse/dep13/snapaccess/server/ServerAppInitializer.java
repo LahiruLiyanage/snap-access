@@ -13,14 +13,15 @@ import java.time.format.DateTimeFormatter;
 public class ServerAppInitializer {
 
     public static void main(String[] args) throws IOException {
+        final int PORT = 5050;
 
         String home = System.getProperty("user.home");
         File downDir = new File(home+"/Downloads/");
 
         ServerSocket serverSocket;
         try {
-            serverSocket = new ServerSocket(6060);
-            System.out.println("Server started on port 6060");
+            serverSocket = new ServerSocket(PORT);
+            System.out.println("Server started on port :" + PORT);
         } catch (BindException e) {
             System.out.println("6060 port is already in use");
             serverSocket = new ServerSocket(0);
