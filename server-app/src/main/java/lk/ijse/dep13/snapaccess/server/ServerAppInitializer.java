@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -11,8 +12,15 @@ public class ServerAppInitializer {
 
     public static void main(String[] args) throws IOException {
 
-        ServerSocket serverSocket = new ServerSocket(10050);
-        System.out.println("Server started on port 10050");
+        ServerSocket serverSocket;
+        try {
+            serverSocket = new ServerSocket(6060);
+            System.out.println("Server started on port 6060");
+        } catch (BindException e) {
+            System.out.println("6060 port is already in use");
+            serverSocket = new ServerSocket(0);
+            System.out.println("Re-try: server started on port " + serverSocket.getLocalPort());
+        }
 
         while (true) {
             System.out.println("Waiting for connection...");
