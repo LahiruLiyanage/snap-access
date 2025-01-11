@@ -1,0 +1,115 @@
+.main_menu_container {
+    -fx-background-color: #EEEEEE;
+    -fx-alignment: center_left;
+    -fx-padding: 0 10 0 10;
+}
+
+.left_container {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(two-pass-box, #AAAAAA, 5, 0, 0, 4);
+}
+
+/* Title/ Logo Section*/
+.title_container {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 20 20 0 0;
+    -fx-alignment: bottom_center;
+    -fx-padding: 10;
+    -fx-spacing: 5;
+    -fx-font-size: 2em;
+}
+
+.left_container FontAwesomeIconView {
+    -fx-fill: #343435;
+}
+
+.left_container Text {
+    -fx-fill: #000000;
+    /*-fx-font-size: 2em;*/
+}
+
+/* Navigation Section */
+.menu_container {
+    -fx-padding: 10 10 10 17;
+    -fx-spacing: 20;
+    -fx-alignment: center;
+}
+
+/*.menu_container Button {*/
+/*    -fx-pref-width: 140;*/
+/*    -fx-pref-height: 40;*/
+/*    -fx-background-color: #d6d6d6;*/
+/*    -fx-text-fill: #343435;*/
+/*    -fx-font-size: 1.1em;*/
+/*    -fx-alignment: center_left;*/
+/*    -effect: dropshadow(three-pass-box, #343435, 5, 0, 0, 6);*/
+/*}*/
+
+.menu_container Button {
+    -fx-pref-width: 136;
+    -fx-pref-height: 40;
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #343435;
+    -fx-font-size: 1.1em;
+    -fx-alignment: center;
+    -fx-stack-to-back: true;
+    -fx-effect: dropshadow(two-pass-box, #959595, 8, 0, 0, 3);
+}
+
+.menu_container Button:hover {
+    -fx-cursor: hand;
+}
+
+.menu_container Button FontAwesomeIconView {
+    -fx-fill: #343435;
+}
+
+.alt_menu_btn {
+    -fx-pref-width: 136;
+    -fx-pref-height: 40;
+    -fx-background-color: #343435;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 1.1em;
+    -fx-alignment: center;
+}
+
+.alt_menu_btn FontAwesomeIconView {
+    -fx-fill: #FFFFFF;
+}
+
+/* Report Bug/Suggestion */
+.report_container {
+    -fx-background-color: #e8e8e8;
+    -fx-background-radius: 10;
+    -fx-alignment: center;
+    -fx-spacing: 10;
+    -fx-padding: 10 0 10 0;
+}
+
+.report_container Text {
+    -fx-font-weight: bold;
+    -fx-fill: #343435;
+}
+
+.report_container Label {
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+}
+
+.report_container Button {
+    /*-fx-stack-to-back: true;*/
+    -fx-pref-width: 80;
+    -fx-background-color: #343435;
+    -fx-text-fill: #FFFFFF;
+    -fx-effect: dropshadow(two-pass-box, #959595, 6, 0, 0, 4);
+
+}
+
+.report_container Button:hover {
+    -fx-cursor: hand;
+}
+
+.report_container Button FontAwesomeIconView {
+    -fx-fill: #FFFFFF;
+}
