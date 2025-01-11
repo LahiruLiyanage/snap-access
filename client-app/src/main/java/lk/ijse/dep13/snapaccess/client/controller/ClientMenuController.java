@@ -3,6 +3,7 @@ package lk.ijse.dep13.snapaccess.client.controller;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import lk.ijse.dep13.snapaccess.client.util.AppRouter;
 
 public class ClientMenuController {
     public Button btnChat;
@@ -13,12 +14,9 @@ public class ClientMenuController {
     public Button btnScreenShare1;
     public Button btnVideoCall;
     public TextField txtIpAddress;
+    public Button btnDashBoard;
 
     public void btnChatOnAction(ActionEvent event) {
-
-    }
-
-    public void btnConnectOnAction(ActionEvent event) {
 
     }
 
@@ -34,4 +32,7 @@ public class ClientMenuController {
 
     }
 
+    public void btnDashBoardOnAction(ActionEvent event) {
+
+    }
 }
