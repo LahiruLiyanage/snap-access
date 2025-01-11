@@ -4,29 +4,56 @@ import javafx.concurrent.Task;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.Socket;
-
 import javax.sound.sampled.*;
+import java.io.*;
+import java.net.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainSceneController {
+
+    private static final AudioFormat format = new AudioFormat(44100, 16, 2, true, false);
+    private static final DataLine.Info sourceInfo = new DataLine.Info(SourceDataLine.class, format);
+    private static final int AUDIO_PORT = 8080;
+    private static final int VIDEO_PORT = 8081;
 
     public ImageView imgCamera;
     public AnchorPane root;
 
     public void initialize() {
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        executorService.submit(() -> startAudioClient());
+        executorService.submit(() -> startVideoClient());
+    }
+
+    private void startAudioClient() {
+        try (Socket socket = new Socket("127.0.0.1", AUDIO_PORT);
+             InputStream inputStream = socket.getInputStream()) {
+            System.out.println("Connected to Audio server");
+
+            SourceDataLine sourceLine = (SourceDataLine) AudioSystem.getLine(sourceInfo);
+            sourceLine.open(format);
+            sourceLine.start();
+
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                sourceLine.write(buffer, 0, bytesRead);
+            }
+
+        } catch (IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startVideoClient() {
         imgCamera.fitWidthProperty().bind(root.widthProperty());
         imgCamera.fitHeightProperty().bind(root.heightProperty());
 
         Task<Image> task = new Task<>() {
+            @Override
             protected Image call() throws Exception {
-                Socket socket = new Socket("127.0.0.1", 8080);
+                Socket socket = new Socket("127.0.0.1", VIDEO_PORT);
                 InputStream is = socket.getInputStream();
                 BufferedInputStream bis = new BufferedInputStream(is);
                 ObjectInputStream ois = new ObjectInputStream(bis);
@@ -40,45 +67,5 @@ public class MainSceneController {
         imgCamera.imageProperty().bind(task.valueProperty());
         new Thread(task).start();
         task.setOnFailed(e -> System.out.println(e.getSource()));
-    }
-
-    public static void main(String[] args) {
-        try {
-            DatagramSocket socket = new DatagramSocket(8080);
-            byte[] buffer = new byte[1024];
-
-            SourceDataLine speakerLine = setupSpeaker();    // speaker
-            speakerLine.open();
-            speakerLine.start();
-
-            System.out.println("Server is ready to receive and play audio...");
-
-            while (true) {
-                DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-                socket.receive(packet);
-
-                byte[] audioData = packet.getData();
-                System.out.println(new String(audioData));
-                int bytesRead = packet.getLength();
-                if (bytesRead > 0) {
-                    speakerLine.write(audioData, 0, bytesRead);
-                    System.out.println("Received and played " + bytesRead + " bytes of audio data.");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static SourceDataLine setupSpeaker() throws Exception {
-        AudioFormat format = new AudioFormat(16000, 16, 1, true, false);
-        DataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
-
-        if (!AudioSystem.isLineSupported(info)) {
-            throw new Exception("Speaker line not supported!");
-        }
-
-        SourceDataLine speakerLine = (SourceDataLine) AudioSystem.getLine(info);
-        return speakerLine;
     }
 }

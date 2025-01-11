@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
+import javax.sound.sampled.LineUnavailableException;
 import java.io.IOException;
 
 public class ClientAppInitializer extends Application {
@@ -14,7 +14,7 @@ public class ClientAppInitializer extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) throws IOException, LineUnavailableException {
         primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/scene/MainScene.fxml"))));
         primaryStage.setTitle("Video-Chat");
         primaryStage.show();
