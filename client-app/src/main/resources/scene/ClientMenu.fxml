@@ -3,7 +3,6 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
@@ -22,8 +21,7 @@
                 <VBox prefHeight="350.0" prefWidth="160.0" styleClass="menu_container" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
                     <children>
                   <Line endX="140.0" />
-                  <TextField fx:id="txtIpAddress" promptText="Ip Address" />
-                        <Button fx:id="btnConnect" mnemonicParsing="false" onAction="#btnConnectOnAction" styleClass="alt_menu_btn" text="Connect">
+                        <Button fx:id="btnDashBoard" mnemonicParsing="false" onAction="#btnDashBoardOnAction" styleClass="alt_menu_btn" text=" DashBoard">
                             <graphic>
                                 <FontAwesomeIconView glyphName="COMPRESS" size="20" />
                             </graphic>
@@ -33,23 +31,23 @@
                      <graphic>
                         <FontAwesomeIconView glyphName="DESKTOP" size="20" />
                      </graphic></Button>
-                  <Button fx:id="btnScreenShare1" mnemonicParsing="false" onAction="#btnScreenShareOnAction" text="File Sharing">
+                  <Button fx:id="btnScreenShare1" mnemonicParsing="false" onAction="#btnScreenShareOnAction" text=" File Sharing">
                      <graphic>
                         <FontAwesomeIconView glyphName="FILE" size="20" />
                      </graphic>
                   </Button>
-                        <Button fx:id="btnVideoCall" mnemonicParsing="false" onAction="#btnVideoCallOnAction" text="VIdeo Call">
+                        <Button fx:id="btnVideoCall" mnemonicParsing="false" onAction="#btnVideoCallOnAction" text=" VIdeo Call">
                             <graphic>
                                 <FontAwesomeIconView glyphName="VIDEO_CAMERA" size="20" />
                             </graphic>
                         </Button>
-                        <Button fx:id="btnChat" mnemonicParsing="false" onAction="#btnChatOnAction" text="Chat">
+                        <Button fx:id="btnChat" mnemonicParsing="false" onAction="#btnChatOnAction" text=" Chat">
                             <graphic>
                                 <FontAwesomeIconView glyphName="COMMENTS" size="20" />
                             </graphic>
                         </Button>
                         <Line endX="140.0" />
-                        <Button fx:id="btnLogout" mnemonicParsing="false" styleClass="alt_menu_btn" text="Logout">
+                        <Button fx:id="btnLogout" mnemonicParsing="false" styleClass="alt_menu_btn" text=" Logout">
                             <graphic>
                                 <FontAwesomeIconView glyphName="EXTERNAL_LINK" size="20" />
                             </graphic>
