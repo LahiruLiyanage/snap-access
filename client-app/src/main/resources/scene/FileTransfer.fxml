@@ -25,6 +25,6 @@
                </image>
             </ImageView>
          </children></StackPane>
-      <Text layoutX="334.0" layoutY="475.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="description" text="Drag and drop a file" />
+      <Text layoutX="284.0" layoutY="475.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="description" text="Drag and drop or Upload a file" />
     </children>
 </AnchorPane>
