@@ -7,11 +7,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 
-public class ScreenShareSceneController {
+public class ScreenShareController {
     public AnchorPane root;
     public ImageView imgScreen;
     Socket socket;
