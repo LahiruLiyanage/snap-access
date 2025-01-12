@@ -1,0 +1,48 @@
+/* Dashboard */
+.name {
+    -fx-font-size: 3em;
+    -fx-font-family: "Calibri Light";
+}
+
+.description {
+    -fx-font-size: 1.5em;
+    -fx-font-family: "Calibri Light";
+}
+
+
+/* Ip Address */
+.container {
+    /*-fx-background-color: #EEEEEE;*/
+    -fx-padding: 20 10 20 10;
+    -fx-spacing: 10;
+    -fx-pref-width: 240;
+    -fx-alignment: center_left;
+}
+
+.container Label {
+    -fx-font-family: "Calibri Light";
+    -fx-font-size: 1.3em;
+}
+
+.container TextField {
+    -fx-pref-height: 40;
+    -fx-background-color: #FFFFFF;
+    -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3);
+}
+
+.container FontAwesomeIconView {
+    -fx-fill: green;
+}
+
+.Button {
+    -fx-background-color: linear-gradient(to right, #343435, #616161);
+    -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3);
+    -fx-pref-width: 220;
+    -fx-font-size: 1.5em;
+    -fx-font-family: "Calibri Light";
+    -fx-text-fill: #FFFFFF;
+}
+
+.Button:hover {
+    -fx-cursor: hand;
+}

@@ -7,11 +7,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 
-public class ScreenShareSceneController {
+public class ScreenShareController {
     public AnchorPane root;
     public ImageView imgScreen;
     Socket socket;
@@ -21,7 +20,7 @@ public class ScreenShareSceneController {
         imgScreen.fitHeightProperty().bind(root.heightProperty());
         imgScreen.setPreserveRatio(true);
 
-        socket = new Socket("127.0.0.1", 10050);
+        socket = new Socket("127.0.0.1", 5050);
         OutputStream os = socket.getOutputStream();
         BufferedOutputStream bos = new BufferedOutputStream(os);
         ObjectOutputStream oos = new ObjectOutputStream(bos);
