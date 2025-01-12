@@ -7,24 +7,40 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="750.0" prefWidth="850.0" stylesheets="@../style/FileTransfer.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep13.snapaccess.client.controller.FileTransaferController">
+<AnchorPane prefHeight="750.0" prefWidth="850.0" stylesheets="@../style/FileTransfer.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep13.snapaccess.client.controller.FileTransferController">
     <children>
-      <ImageView fitHeight="750.0" fitWidth="862.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <image>
-            <Image url="@../image/background.jpg" />
-         </image>
-      </ImageView>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="name" text="File Transfer" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="30.0" />
-      <Text layoutX="20.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="description" text="Remote Desktop Client Application" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="90.0" />
-      <StackPane fx:id="send" layoutX="231.0" layoutY="207.0" onDragDropped="#sendOnDragDropped" onMouseClicked="#sendOnMouseClicked" prefHeight="247.0" prefWidth="389.0" styleClass="sendfile">
-         <children>
-            <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#1f93ff00" height="200.0" stroke="#0e52c4" strokeDashOffset="10.0" strokeLineCap="ROUND" strokeLineJoin="ROUND" strokeWidth="3.0" styleClass="Rectangle" width="350.0" />
-            <ImageView fitHeight="125.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" styleClass="ImageView">
-               <image>
-                  <Image url="@../image/File.png" />
-               </image>
-            </ImageView>
-         </children></StackPane>
-      <Text layoutX="284.0" layoutY="475.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="description" text="Drag and drop or Upload a file" />
+        <ImageView fitHeight="750.0" fitWidth="862.0" pickOnBounds="true" preserveRatio="true"
+                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <image>
+                <Image url="@../image/background.jpg" />
+            </image>
+        </ImageView>
+
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="name"
+              text="File Transfer" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="30.0" />
+
+        <Text layoutX="20.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              styleClass="description" text="Remote Desktop Client Application"
+              AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="90.0" />
+
+        <StackPane fx:id="send" layoutX="231.0" layoutY="207.0" onDragDropped="#sendOnDragDropped"
+                   onMouseClicked="#sendOnMouseClicked" prefHeight="247.0" prefWidth="389.0"
+                   styleClass="sendfile">
+            <children>
+                <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#1f93ff00" height="200.0"
+                           stroke="#0e52c4" strokeDashOffset="10.0" strokeLineCap="ROUND"
+                           strokeLineJoin="ROUND" strokeWidth="3.0" styleClass="Rectangle" width="350.0" />
+                <ImageView fitHeight="125.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true"
+                           styleClass="ImageView">
+                    <image>
+                        <Image url="@../image/File.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </StackPane>
+
+        <Text layoutX="284.0" layoutY="475.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              styleClass="description" text="Drag and drop or Upload a file" />
     </children>
 </AnchorPane>
