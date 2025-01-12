@@ -33,6 +33,12 @@ public class FileTransferServer {
                      BufferedInputStream bis = new BufferedInputStream(is);
                      BufferedReader reader = new BufferedReader(new InputStreamReader(bis))) {
 
+                    // Read username (optional, can be used for logging)
+                    String username = reader.readLine();
+                    if (username != null) {
+                        System.out.println("Receiving file from user: " + username);
+                    }
+
                     // Read file name
                     String fileName = reader.readLine();
                     if (fileName == null) {
@@ -40,22 +46,48 @@ public class FileTransferServer {
                         continue;
                     }
 
-                    // Save the file
+                    // Ensure the file name is unique
                     File file = new File(SAVE_DIRECTORY, fileName);
+                    file = ensureUniqueFileName(file);
+
+                    // Save the file
                     try (FileOutputStream fos = new FileOutputStream(file);
                          BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+
                         byte[] buffer = new byte[4096];
                         int bytesRead;
                         while ((bytesRead = bis.read(buffer)) != -1) {
                             bos.write(buffer, 0, bytesRead);
                         }
-                        System.out.println("File received: " + fileName);
+
+                        System.out.println("File received: " + file.getAbsolutePath());
                     }
+                } catch (IOException e) {
+                    System.err.println("Error handling client: " + e.getMessage());
+                    e.printStackTrace();
+                } finally {
+                    socket.close();
                 }
-                socket.close();
             }
         } catch (IOException e) {
+            System.err.println("Server error: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Ensures the file name is unique by appending a numeric suffix if a file with the same name exists.
+     */
+    private static File ensureUniqueFileName(File file) {
+        String name = file.getName();
+        String baseName = name.contains(".") ? name.substring(0, name.lastIndexOf('.')) : name;
+        String extension = name.contains(".") ? name.substring(name.lastIndexOf('.')) : "";
+
+        int counter = 1;
+        while (file.exists()) {
+            file = new File(file.getParent(), baseName + "_" + counter + extension);
+            counter++;
+        }
+        return file;
     }
 }

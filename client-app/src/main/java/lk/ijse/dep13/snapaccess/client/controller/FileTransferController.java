@@ -41,6 +41,14 @@ public class FileTransferController {
         }
     }
 
+    // Handle drag over
+    public void sendOnDragOver(DragEvent event) {
+        if (event.getGestureSource() != send && event.getDragboard().hasFiles()) {
+            event.acceptTransferModes(javafx.scene.input.TransferMode.COPY);
+        }
+        event.consume();
+    }
+
     // Handle drag and drop
     public void sendOnDragDropped(DragEvent event) {
         Dragboard dragboard = event.getDragboard();
@@ -61,6 +69,11 @@ public class FileTransferController {
         final String SERVER_HOST = "127.0.0.1"; // Replace with your server's address
         final int SERVER_PORT = 5050;
 
+        if (!file.exists() || !file.isFile()) {
+            System.err.println("Invalid file selected. Please choose a valid file.");
+            return;
+        }
+
         try (Socket socket = new Socket(SERVER_HOST, SERVER_PORT);
              BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream());
              BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
@@ -69,7 +82,7 @@ public class FileTransferController {
             System.out.println("Connected to the server.");
 
             // Send username (replace with dynamic input if needed)
-            String username = "user123";
+            String username = "user123"; // This could be dynamically fetched
             writer.println(username);
 
             // Send the file name
