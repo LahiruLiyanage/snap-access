@@ -11,7 +11,7 @@
 
 
 /* Ip Address */
-.new_trans_container {
+.container {
     /*-fx-background-color: #EEEEEE;*/
     -fx-padding: 20 10 20 10;
     -fx-spacing: 10;
@@ -19,15 +19,19 @@
     -fx-alignment: center_left;
 }
 
-.new_trans_container Label {
+.container Label {
     -fx-font-family: "Calibri Light";
     -fx-font-size: 1.3em;
 }
 
-.new_trans_container TextField {
+.container TextField {
     -fx-pref-height: 40;
     -fx-background-color: #FFFFFF;
     -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3);
+}
+
+.container FontAwesomeIconView {
+    -fx-fill: green;
 }
 
 .Button {
