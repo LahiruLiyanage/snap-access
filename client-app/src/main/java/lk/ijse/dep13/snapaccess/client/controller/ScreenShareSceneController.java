@@ -35,12 +35,8 @@ public class ScreenShareSceneController {
             stage.setWidth(screenWidth);
             stage.setHeight(screenHeight);
             //stage.setFullScreen(true);
-            System.out.println(stage.getWidth());
-            System.out.println(stage.getHeight());
             imgScreen.fitWidthProperty().bind(stage.widthProperty());
             imgScreen.fitHeightProperty().bind(stage.heightProperty());
-//            System.out.println(imgScreen.getFitHeight());
-//            System.out.println(imgScreen.getFitWidth());
             imgScreen.setPreserveRatio(true);
         });
 
