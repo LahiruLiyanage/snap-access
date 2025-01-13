@@ -15,7 +15,7 @@ public class AppRouter {
         AnchorPane container = null;
         switch (route) {
             case FILE_TRANSFER -> container = FXMLLoader.load(AppRouter.class.getResource("/scene/FileTransfer.fxml"));
-            case SCREENSHARE -> container = FXMLLoader.load(AppRouter.class.getResource("/scene/ScreenShare.fxml"));
+            case SCREENSHARE -> container = FXMLLoader.load(AppRouter.class.getResource("/scene/ScrenShare.fxml"));
             default -> container = FXMLLoader.load(AppRouter.class.getResource("/scene/ClientDashBoard.fxml"));
 
         }
