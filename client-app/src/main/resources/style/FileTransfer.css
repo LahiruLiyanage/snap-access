@@ -1,0 +1,47 @@
+/* Dashboard */
+.name {
+    -fx-font-size: 3em;
+    -fx-font-family: "Calibri Light";
+}
+
+.description {
+    -fx-font-size: 1.5em;
+    -fx-font-family: "Calibri Light";
+}
+
+.sendfile {
+    -fx-font-size: 1.5em;
+    -fx-font-family: "Calibri Light";
+
+}
+
+.sendfile:hover {
+    -fx-cursor: hand;
+    -fx-cell-size: 1.5;
+}
+
+.Rectangle {
+    -fx-arc-width: 75; /* Controls horizontal corner rounding */
+    -fx-arc-height: 75; /* Controls vertical corner rounding */
+    -fx-stroke: #1877F2; /* Border color */
+    -fx-stroke-dash-array: 10 15; /* Creates dashed border with dash length 10 and gap 5 */
+    -fx-fill: rgba(255, 255, 255, 0.11); /* Fill color */
+    -fx-stroke-width: 5; /* Thickness of the border */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.2, 2, 5);
+}
+
+.Rectangle:hover {
+    -fx-scale-x: 1.05; /* Slight enlargement horizontally */
+    -fx-scale-y: 1.05; /* Slight enlargement vertically */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.2, 2, 5);
+}
+
+.ImageView {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.2, 2, 5);
+}
+
+.ImageView:hover {
+    -fx-scale-x: 1.05; /* Slight enlargement horizontally */
+    -fx-scale-y: 1.05; /* Slight enlargement vertically */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.2, 2, 5);
+}

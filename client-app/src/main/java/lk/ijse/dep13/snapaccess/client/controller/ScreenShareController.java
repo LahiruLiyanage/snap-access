@@ -7,18 +7,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 
-public class ScreenShareSceneController {
+public class ScreenShareController {
     public AnchorPane root;
     public ImageView imgScreen;
     Socket socket;
 
     public void initialize() throws Exception {
+        imgScreen.fitWidthProperty().bind(root.widthProperty());
+        imgScreen.fitHeightProperty().bind(root.heightProperty());
+        imgScreen.setPreserveRatio(true);
 
-        socket = new Socket("192.168.8.144", 10050);
+        socket = new Socket("127.0.0.1", 5050);
         OutputStream os = socket.getOutputStream();
         BufferedOutputStream bos = new BufferedOutputStream(os);
         ObjectOutputStream oos = new ObjectOutputStream(bos);
@@ -31,35 +33,10 @@ public class ScreenShareSceneController {
         int screenHeight = ois.readInt();
 
         Platform.runLater(() -> {
-
             Stage stage = (Stage)root.getScene().getWindow();
-            imgScreen.fitWidthProperty().bind(stage.widthProperty());
-            imgScreen.fitHeightProperty().bind(stage.heightProperty());
-            imgScreen.setPreserveRatio(true);
-
-            stage.setWidth(screenWidth / 2.);
-            stage.setHeight(screenHeight / 2.);
-//            stage.setFullScreen(true);
             stage.setWidth(screenWidth);
             stage.setHeight(screenHeight);
-            //stage.setFullScreen(true);
-            System.out.println(stage.getWidth());
-            System.out.println(stage.getHeight());
-            imgScreen.fitWidthProperty().bind(stage.widthProperty());
-            imgScreen.fitHeightProperty().bind(stage.heightProperty());
-//            System.out.println(imgScreen.getFitHeight());
-//            System.out.println(imgScreen.getFitWidth());
-            imgScreen.setPreserveRatio(true);
-        });
-
-        imgScreen.setOnMouseMoved(mouseEvent -> {
-            try{
-                oos.writeObject(new Point((int) mouseEvent.getX(), (int) mouseEvent.getY()));
-                oos.flush();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-
+//            stage.setFullScreen(true);
         });
 
         Task<Image> task = new Task<>() {
