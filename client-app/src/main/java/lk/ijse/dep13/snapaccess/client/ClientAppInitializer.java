@@ -15,7 +15,7 @@ public class ClientAppInitializer extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/scene/FileTransfer.fxml"))));
+        primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/scene/ScreenShareScene.fxml"))));
         primaryStage.setTitle("Snap Access");
         primaryStage.show();
         primaryStage.centerOnScreen();
