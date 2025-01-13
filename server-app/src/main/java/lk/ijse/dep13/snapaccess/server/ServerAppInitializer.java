@@ -52,6 +52,8 @@ public class ServerAppInitializer {
                         revertDesktop();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
                     }
                 }
             }).start();
@@ -74,21 +76,32 @@ public class ServerAppInitializer {
     }
 
     public static void changeDesktopColor(String color) throws Exception {
-        if (System.getProperty("os.name").toLowerCase().contains("linux")) {
+        String os = System.getProperty("os.name").toLowerCase();
+
+        if (os.contains("linux")) {
             String[] command1 = {"gsettings", "set", "org.gnome.desktop.background", "picture-options", "none"};
             Runtime.getRuntime().exec(command1).waitFor();
             String[] command2 = {"gsettings", "set", "org.gnome.desktop.background", "primary-color", "%s".formatted(color)};
-            Runtime.getRuntime().exec(command1).waitFor();
-            Runtime.getRuntime().exec(command2);
+            Runtime.getRuntime().exec(command2).waitFor();
+        } else if (os.contains("mac")) {
+            String script = "tell application \"Finder\" to set desktop picture to POSIX file \"/System/Library/Desktop Pictures/Solid Colors/Solid Black.png\"";
+            String[] command = {"osascript", "-e", script};
+            Runtime.getRuntime().exec(command).waitFor();
         } else {
             throw new UnsupportedOperationException("Unsupported OS");
         }
     }
 
-    public static void revertDesktop() throws IOException {
-        if (System.getProperty("os.name").toLowerCase().contains("linux")) {
+    public static void revertDesktop() throws IOException, InterruptedException {
+        String os = System.getProperty("os.name").toLowerCase();
+
+        if (os.contains("linux")) {
             String[] setColor = {"gsettings", "set", "org.gnome.desktop.background", "picture-options", "zoom"};
-            Runtime.getRuntime().exec(setColor);
+            Runtime.getRuntime().exec(setColor).waitFor();
+        } else if (os.contains("mac")) {
+            String script = "tell application \"Finder\" to set desktop picture to POSIX file \"~/Pictures/DefaultWallpaper.jpg\"";
+            String[] command = {"osascript", "-e", script};
+            Runtime.getRuntime().exec(command).waitFor();
         } else {
             throw new UnsupportedOperationException("Unsupported OS");
         }
