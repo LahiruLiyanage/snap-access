@@ -9,7 +9,7 @@ import java.net.Socket;
 
 public class ServerAppInitializer {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
 
         ServerSocket serverSocket = new ServerSocket(10050);
         System.out.println("Server started on port 10050");
@@ -20,11 +20,14 @@ public class ServerAppInitializer {
             System.out.println("Accepted connection from " + localSocket.getRemoteSocketAddress());
             new Thread(() -> {
                 try {
+                    changeDesktopColor("black");
                     OutputStream os = localSocket.getOutputStream();
                     BufferedOutputStream bos = new BufferedOutputStream(os);
                     ObjectOutputStream oos = new ObjectOutputStream(bos);
 
                     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                    System.out.println(screenSize.height);
+                    System.out.println(screenSize.width);
                     int screenWidth = screenSize.width;
                     int screenHeight = screenSize.height;
 
@@ -44,8 +47,50 @@ public class ServerAppInitializer {
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                } finally {
+                    try {
+                        revertDesktop();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }).start();
+
+            new Thread(()->{
+                try {
+                    InputStream is = localSocket.getInputStream();
+                    BufferedInputStream bis = new BufferedInputStream(is);
+                    ObjectInputStream ois = new ObjectInputStream(bis);
+
+                    Point coordinates = (Point) ois.readObject();
+                    Robot robot = new Robot();
+                    robot.mouseMove(coordinates.x, coordinates.y);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }).start();
+        }
+    }
+
+    public static void changeDesktopColor(String color) throws Exception {
+        if (System.getProperty("os.name").toLowerCase().contains("linux")) {
+            String[] command1 = {"gsettings", "set", "org.gnome.desktop.background", "picture-options", "none"};
+            Runtime.getRuntime().exec(command1).waitFor();
+            String[] command2 = {"gsettings", "set", "org.gnome.desktop.background", "primary-color", "%s".formatted(color)};
+            Runtime.getRuntime().exec(command1).waitFor();
+            Runtime.getRuntime().exec(command2);
+        } else {
+            throw new UnsupportedOperationException("Unsupported OS");
+        }
+    }
+
+    public static void revertDesktop() throws IOException {
+        if (System.getProperty("os.name").toLowerCase().contains("linux")) {
+            String[] setColor = {"gsettings", "set", "org.gnome.desktop.background", "picture-options", "zoom"};
+            Runtime.getRuntime().exec(setColor);
+        } else {
+            throw new UnsupportedOperationException("Unsupported OS");
         }
     }
 }
