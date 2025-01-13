@@ -15,12 +15,11 @@ public class FileTransferController {
 
     public StackPane send;
 
-    // Handle file chooser
     public void sendOnMouseClicked(MouseEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose File to Send");
 
-        // Set initial directory to Downloads
+        // Directory to Downloads
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Downloads"));
 
         // Add file filters
@@ -30,7 +29,7 @@ public class FileTransferController {
                 new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif")
         );
 
-        // Open the file chooser
+        // File chooser
         File selectedFile = fileChooser.showOpenDialog(new Stage());
 
         if (selectedFile != null) {
@@ -41,7 +40,6 @@ public class FileTransferController {
         }
     }
 
-    // Handle drag over
     public void sendOnDragOver(DragEvent event) {
         if (event.getGestureSource() != send && event.getDragboard().hasFiles()) {
             event.acceptTransferModes(javafx.scene.input.TransferMode.COPY);
@@ -49,12 +47,12 @@ public class FileTransferController {
         event.consume();
     }
 
-    // Handle drag and drop
+    // Drag and Drop
     public void sendOnDragDropped(DragEvent event) {
         Dragboard dragboard = event.getDragboard();
         if (dragboard.hasFiles()) {
             List<File> files = dragboard.getFiles();
-            File file = files.get(0); // Only handle the first file
+            File file = files.get(0);
             System.out.println("File dropped: " + file.getAbsolutePath());
             sendFileToServer(file);
             event.setDropCompleted(true);
@@ -64,9 +62,9 @@ public class FileTransferController {
         event.consume();
     }
 
-    // Method to send the file to the server
+    // Files to the server
     private void sendFileToServer(File file) {
-        final String SERVER_HOST = "127.0.0.1"; // Replace with your server's address
+        final String SERVER_HOST = "127.0.0.1";
         final int SERVER_PORT = 5050;
 
         if (!file.exists() || !file.isFile()) {
@@ -81,8 +79,11 @@ public class FileTransferController {
 
             System.out.println("Connected to the server.");
 
-            // Send username (replace with dynamic input if needed)
-            String username = "user123"; // This could be dynamically fetched
+            // Send the request type
+            writer.println("FILE_TRANSFER");
+
+            // Send username
+            String username = "user123";
             writer.println(username);
 
             // Send the file name
