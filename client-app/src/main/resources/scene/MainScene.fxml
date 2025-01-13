@@ -1,11 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep13.snapaccess.client.controller.MainSceneController">
+<AnchorPane fx:id="root" onMouseDragged="#rootOnMouseDragged" onMousePressed="#rootOnMousePressed" prefHeight="250.0" prefWidth="443.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep13.snapaccess.client.controller.MainSceneController">
    <children>
-      <ImageView fx:id="imgCamera" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <ImageView fx:id="imgPerson" fitHeight="118.0" fitWidth="125.0" layoutX="166.0" layoutY="36.0" opacity="0.66" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/dialling.gif" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgCamera" fitHeight="250.0" fitWidth="450.0" layoutX="-5.0" onMouseDragged="#imgCameraOnMouseDragged" onMousePressed="#imgCameraOnMousePressed" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <AnchorPane layoutY="298.0" opacity="0.3" prefHeight="93.0" prefWidth="410.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <ImageView fx:id="imgStartAudio" fitHeight="60.0" fitWidth="82.0" layoutX="60.0" layoutY="171.0" onMouseClicked="#imgStartAudioOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/start_audio.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgStartVideo" fitHeight="60.0" fitWidth="82.0" layoutX="335.0" layoutY="171.0" onMouseClicked="#imgStartVideoOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/start_video.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgStopAudio" fitHeight="60.0" fitWidth="82.0" layoutX="60.0" layoutY="171.0" onMouseClicked="#imgStopAudioOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/stop_audio.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgDisconnect" fitHeight="60.0" fitWidth="72.0" layoutX="196.0" layoutY="171.0" onMouseClicked="#imgDisconnectOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/disconnect.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imgStopVideo" fitHeight="60.0" fitWidth="82.0" layoutX="335.0" layoutY="171.0" onMouseClicked="#imgStopVideoOnMouseClicked" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/stop_video.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

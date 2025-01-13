@@ -26,7 +26,7 @@ public class ServerAppInitializer {
         try (ServerSocket serverSocket = new ServerSocket(AUDIO_PORT)) {
             System.out.println("Audio Server started on port " + AUDIO_PORT);
             Socket clientSocket = serverSocket.accept();
-            System.out.println("Audio Client connected");
+            System.out.println("Client connected to Audio");
 
             TargetDataLine targetLine = (TargetDataLine) AudioSystem.getLine(targetInfo);
             targetLine.open(format);
