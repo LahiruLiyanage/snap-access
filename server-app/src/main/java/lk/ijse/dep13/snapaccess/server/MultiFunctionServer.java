@@ -36,14 +36,20 @@ public class MultiFunctionServer {
     }
 
     private static void handleClient(Socket socket) {
-        try (InputStream is = socket.getInputStream();
-             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-             OutputStream os = socket.getOutputStream();
-             BufferedOutputStream bos = new BufferedOutputStream(os);
-             ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+        ObjectOutputStream oos = null;
+        try {
+            InputStream is = socket.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            OutputStream os = socket.getOutputStream();
+            BufferedOutputStream bos = new BufferedOutputStream(os);
 
-            // Read the client request type
+            // Read the client request type first
             String requestType = reader.readLine();
+            System.out.println("Received request type: " + requestType);
+
+            // Create ObjectOutputStream after reading request type
+            oos = new ObjectOutputStream(bos);
+            oos.flush();
 
             if ("FILE_TRANSFER".equalsIgnoreCase(requestType)) {
                 handleFileTransfer(socket, reader);
@@ -57,9 +63,10 @@ public class MultiFunctionServer {
             e.printStackTrace();
         } finally {
             try {
+                if (oos != null) oos.close();
                 socket.close();
             } catch (IOException e) {
-                System.err.println("Error closing socket: " + e.getMessage());
+                System.err.println("Error closing resources: " + e.getMessage());
             }
         }
     }
@@ -85,10 +92,10 @@ public class MultiFunctionServer {
             file = ensureUniqueFileName(file);
 
             // Save the file
-            try (InputStream is = socket.getInputStream();
-                 FileOutputStream fos = new FileOutputStream(file);
+            try (FileOutputStream fos = new FileOutputStream(file);
                  BufferedOutputStream bos = new BufferedOutputStream(fos)) {
 
+                InputStream is = socket.getInputStream();
                 byte[] buffer = new byte[4096];
                 int bytesRead;
                 while ((bytesRead = is.read(buffer)) != -1) {
@@ -106,27 +113,33 @@ public class MultiFunctionServer {
     private static void handleScreenShare(ObjectOutputStream oos) {
         try {
             System.out.println("Handling screen sharing...");
+            Robot robot = new Robot();
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
             // Send screen dimensions to the client
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             oos.writeInt((int) screenSize.getWidth());
             oos.writeInt((int) screenSize.getHeight());
             oos.flush();
 
-            Robot robot = new Robot();
-            while (true) {
-                BufferedImage screenCapture = robot.createScreenCapture(new Rectangle(screenSize));
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    BufferedImage screenCapture = robot.createScreenCapture(new Rectangle(screenSize));
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    ImageIO.write(screenCapture, "png", baos);
+                    byte[] imageBytes = baos.toByteArray();
 
-                // Byte array
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ImageIO.write(screenCapture, "png", baos);
-                byte[] imageBytes = baos.toByteArray();
+                    oos.writeObject(imageBytes);
+                    oos.flush();
+                    oos.reset(); // Prevent memory leak
 
-                // Send the image bytes to the client
-                oos.writeObject(imageBytes);
-                oos.flush();
-
-                Thread.sleep(100); // Adjust as needed
+                    Thread.sleep(100); // Adjust screen capture rate as needed
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                } catch (Exception e) {
+                    System.err.println("Error capturing screen: " + e.getMessage());
+                    break;
+                }
             }
         } catch (Exception e) {
             System.err.println("Error during screen sharing: " + e.getMessage());
@@ -134,9 +147,6 @@ public class MultiFunctionServer {
         }
     }
 
-    /**
-     * Ensures the file same name exists.
-     */
     private static File ensureUniqueFileName(File file) {
         String name = file.getName();
         String baseName = name.contains(".") ? name.substring(0, name.lastIndexOf('.')) : name;
