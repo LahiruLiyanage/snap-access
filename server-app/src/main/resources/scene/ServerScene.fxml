@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+
+
+<AnchorPane fx:id="root" prefHeight="451.0" prefWidth="359.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="lk.ijse.dep13.snapaccess.server.controller.ServerSceneController">
+<padding>
+    <Insets right="20.0" top="20.0" />
+</padding>
+<children>
+    <TextArea fx:id="txtSend" layoutX="14.0" layoutY="14.0" prefHeight="65.0" prefWidth="251.0" promptText="Enter Your Message" />
+    <Button fx:id="btnSend" layoutX="279.0" layoutY="21.0" mnemonicParsing="false" onAction="#btnSendOnAction" text="Send" />
+    <ListView fx:id="lstView" layoutX="14.0" layoutY="95.0" prefHeight="331.0" prefWidth="325.0" />
+</children>
+</AnchorPane>

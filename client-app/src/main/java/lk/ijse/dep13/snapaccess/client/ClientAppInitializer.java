@@ -15,6 +15,7 @@ import java.util.Scanner;
 public class ClientAppInitializer extends Application {
 
 
+
     public static void main(String[] args) {
         launch(args);
     }

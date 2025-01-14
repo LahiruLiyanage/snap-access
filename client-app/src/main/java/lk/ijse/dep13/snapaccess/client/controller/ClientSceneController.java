@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
@@ -22,11 +23,14 @@ public class ClientSceneController {
     private Socket socket;
     private OutputStream outputStream;
 
+
     public void initialize() {
         try {
             // Establish a connection to the server
             socket = new Socket("127.0.0.1", 5050);
             outputStream = socket.getOutputStream();
+            // Start a thread to listen for messages from the server
+            new Thread(this::listenForMessages).start();
         } catch (IOException e) {
             showError("Failed to connect to the server.");
             e.printStackTrace();
@@ -50,7 +54,8 @@ public class ClientSceneController {
     private void sendData(String message) {
         if (outputStream != null) {
             try {
-                outputStream.write(message.getBytes());
+                String formattedMessage = "Client: " + message; // Add "Client:" identifier
+                outputStream.write(formattedMessage.getBytes());
                 outputStream.flush();
             } catch (IOException e) {
                 showError("Failed to send the message.");
@@ -60,6 +65,27 @@ public class ClientSceneController {
             showError("No connection to the server.");
         }
     }
+
+    private void listenForMessages() {
+        try (InputStream is = socket.getInputStream()) {
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = is.read(buffer)) != -1) {
+                String message = new String(buffer, 0, len);
+
+                // Update UI with the received message, ignoring messages from itself
+                Platform.runLater(() -> {
+                    if (!message.startsWith("Client:")) { // Ignore messages sent by this client
+                        lstView.getItems().add(message);
+                    }
+                });
+            }
+        } catch (IOException e) {
+            showError("Disconnected from the server.");
+            e.printStackTrace();
+        }
+    }
+
 
     private void updateListView(String message) {
         Platform.runLater(() -> lstView.getItems().add(message));
@@ -79,4 +105,6 @@ public class ClientSceneController {
             e.printStackTrace();
         }
     }
+
+
 }
