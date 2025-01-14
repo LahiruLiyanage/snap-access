@@ -97,14 +97,14 @@ public class ClientSceneController {
         });
     }
 
-    public void closeConnection() {
-        try {
-            if (outputStream != null) outputStream.close();
-            if (socket != null) socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void closeConnection() {
+//        try {
+//            if (outputStream != null) outputStream.close();
+//            if (socket != null) socket.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 }
