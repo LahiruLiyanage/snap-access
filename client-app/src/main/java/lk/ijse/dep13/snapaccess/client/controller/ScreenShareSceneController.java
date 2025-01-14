@@ -1,11 +1,13 @@
 package lk.ijse.dep13.snapaccess.client.controller;
 
+import dto.Request;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import util.EventType;
 
 import java.awt.*;
 import java.io.*;
@@ -18,7 +20,7 @@ public class ScreenShareSceneController {
 
     public void initialize() throws Exception {
 
-        socket = new Socket("192.168.8.144", 10050);
+        socket = new Socket("localhost", 10050);
         OutputStream os = socket.getOutputStream();
         BufferedOutputStream bos = new BufferedOutputStream(os);
         ObjectOutputStream oos = new ObjectOutputStream(bos);
@@ -42,12 +44,34 @@ public class ScreenShareSceneController {
 
         imgScreen.setOnMouseMoved(mouseEvent -> {
             try{
-                oos.writeObject(new Point((int) mouseEvent.getX(), (int) mouseEvent.getY()));
+                Point coordinates = new Point((int) mouseEvent.getX(), (int) mouseEvent.getY());
+                oos.writeObject(new Request(EventType.MOVE, coordinates));
+                System.out.println("Mouse moved");
                 oos.flush();
             }catch (IOException e){
                 e.printStackTrace();
             }
 
+        });
+
+        imgScreen.setOnMouseClicked(mouseEvent -> {
+            try{
+                Point coordinates = new Point((int) mouseEvent.getX(), (int) mouseEvent.getY());
+                oos.writeObject(new Request(EventType.LEFT_CLICK, coordinates));
+                System.out.println("Mouse clicked");
+                //oos.flush();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+            mouseEvent.consume();
+        });
+
+        imgScreen.setOnKeyTyped(keyEvent -> {
+            try {
+                oos.writeObject(new Request(EventType.LEFT_CLICK, keyEvent.getCode()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
 
         Task<Image> task = new Task<>() {
