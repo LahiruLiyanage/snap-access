@@ -22,7 +22,7 @@ public class ClientAppInitializer extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/scene/ClientScene.fxml"))));
+      primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/scene/ClientScene.fxml"))));
 
         primaryStage.setTitle("Snap Access - Client Window");
         Image logo = new Image(getClass().getResourceAsStream("/img/logo1.jpeg"));

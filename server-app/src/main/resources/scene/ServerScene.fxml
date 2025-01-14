@@ -5,18 +5,34 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.geometry.Insets?>
 
+<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: #EBE2DB;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep13.snapaccess.server.controller.ServerSceneController">
+    <padding>
+        <Insets right="10.0" top="10.0" />
+    </padding>
+    <children>
+        <!-- ListView for messages -->
+        <ListView fx:id="lstView" layoutX="8.5" layoutY="25.0" prefHeight="275.0" prefWidth="291.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
 
-<AnchorPane fx:id="root" prefHeight="451.0" prefWidth="359.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="lk.ijse.dep13.snapaccess.server.controller.ServerSceneController">
-<padding>
-    <Insets right="20.0" top="20.0" />
-</padding>
-<children>
-    <TextArea fx:id="txtSend" layoutX="14.0" layoutY="14.0" prefHeight="65.0" prefWidth="251.0" promptText="Enter Your Message" />
-    <Button fx:id="btnSend" layoutX="279.0" layoutY="21.0" mnemonicParsing="false" onAction="#btnSendOnAction" text="Send" />
-    <ListView fx:id="lstView" layoutX="14.0" layoutY="95.0" prefHeight="331.0" prefWidth="325.0" />
-</children>
+        <!-- TextArea for typing messages -->
+        <TextArea fx:id="txtSend" layoutX="15.0" layoutY="344.0" prefHeight="40.0" prefWidth="240.0" promptText="😊 Enter Your Message" style="-fx-background-radius: 15; -fx-background-insets: 0;">
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+        </TextArea>
+
+        <!-- Send Button with Image as its graphic -->
+        <Button fx:id="btnSend" layoutX="256.0" layoutY="342.0" mnemonicParsing="false" onAction="#btnSendOnAction" prefHeight="40.0" prefWidth="56.0" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+            <graphic>
+                <ImageView fitHeight="40.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../img/5.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+    </children>
 </AnchorPane>
