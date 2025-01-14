@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,18 +47,21 @@ public class ServerSceneController {
 
     private void handleClient(Socket socket) {
         try {
-            System.out.println("Connection accepted");
+            String clientHostName = socket.getInetAddress().getHostName();
             InputStream is = socket.getInputStream();
             byte[] buffer = new byte[1024];
             int len;
             while ((len = is.read(buffer)) != -1) {
-                String message = new String(buffer, 0, len);
-                System.out.println(message);
+                String message = new String(buffer, 0, len).trim();
 
-                // Update the ListView on the JavaFX Application Thread
-                Platform.runLater(() -> lstView.getItems().add(message));
-                // Broadcast the message to all clients
-                broadcastMessage(message); // Retain the original prefix
+                // Format the message with the client's hostname
+                String formattedMessage = clientHostName + ": " + message;
+
+                // Update the server's ListView
+                Platform.runLater(() -> lstView.getItems().add(formattedMessage));
+
+                // Broadcast the formatted message to all clients
+                broadcastMessage(formattedMessage);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,8 +76,10 @@ public class ServerSceneController {
             return;
         }
 
-        // Add the message to the server UI
-        String formattedMessage = "Server: " + message; // Add "Server:" prefix
+        String serverHostName = getLocalHostName();
+        String formattedMessage = serverHostName + ": " + message;
+
+        // Update the ListView on the server
         Platform.runLater(() -> lstView.getItems().add(formattedMessage));
 
         // Broadcast the message to all clients
@@ -83,8 +89,6 @@ public class ServerSceneController {
         txtSend.clear();
         txtSend.requestFocus();
     }
-
-
 
     private void broadcastMessage(String message) {
         for (Socket client : clients) {
@@ -98,5 +102,13 @@ public class ServerSceneController {
         }
     }
 
-
+    public String getLocalHostName() {
+        try {
+            InetAddress inetAddress = InetAddress.getLocalHost();
+            return inetAddress.getHostName();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Unknown Host";
+        }
+    }
 }
