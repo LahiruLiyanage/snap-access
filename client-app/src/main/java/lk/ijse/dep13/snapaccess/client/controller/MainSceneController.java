@@ -35,9 +35,8 @@ public class MainSceneController {
     private boolean isCameraOn = true;
 
     public void initialize() {
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
-        executorService.submit(() -> startAudioClient());
-        executorService.submit(() -> startVideoClient());
+        startVideoClient();
+        new Thread(this::startAudioClient).start();
         imgStartAudio.setVisible(false);
         imgStartVideo.setVisible(false);
     }
@@ -46,7 +45,7 @@ public class MainSceneController {
         try {
             audioSocket = new Socket("127.0.0.1", AUDIO_PORT);
             InputStream inputStream = audioSocket.getInputStream();
-            System.out.println("Connected to Audio server");
+            System.out.println("Connected to Audio");
 
             sourceLine = (SourceDataLine) AudioSystem.getLine(sourceInfo);
             sourceLine.open(format);
@@ -76,6 +75,7 @@ public class MainSceneController {
             protected Image call() throws Exception {
                 videoSocket = new Socket("127.0.0.1", VIDEO_PORT);
                 InputStream is = videoSocket.getInputStream();
+                System.out.println("Connected to Video");
                 BufferedInputStream bis = new BufferedInputStream(is);
                 ObjectInputStream ois = new ObjectInputStream(bis);
 
@@ -92,7 +92,6 @@ public class MainSceneController {
         imgCamera.imageProperty().bind(task.valueProperty());
         videoThread = new Thread(task);
         videoThread.start();
-        task.setOnFailed(e -> System.out.println(e.getSource()));
     }
 
     public void imgStopAudioOnMouseClicked(MouseEvent mouseEvent) {
