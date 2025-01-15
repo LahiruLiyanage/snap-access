@@ -51,7 +51,6 @@ public class ScreenShareSceneController {
             }catch (IOException e){
                 e.printStackTrace();
             }
-
         });
 
         imgScreen.setOnMouseClicked(mouseEvent -> {

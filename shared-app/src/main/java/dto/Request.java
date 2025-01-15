@@ -2,7 +2,6 @@ package dto;
 
 import util.EventType;
 
-import java.awt.*;
 import java.io.Serializable;
 
 public class Request implements Serializable {
