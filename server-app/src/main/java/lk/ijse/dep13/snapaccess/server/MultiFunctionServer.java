@@ -1,5 +1,10 @@
 package lk.ijse.dep13.snapaccess.server;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -7,12 +12,27 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import javax.imageio.ImageIO;
 
-public class MultiFunctionServer {
+public class MultiFunctionServer extends Application {
 
     private static final int SERVER_PORT = 5050;
     private static final String SAVE_DIRECTORY = System.getProperty("user.home") + "/Downloads/snap-access";
 
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+        primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/scene/Server.fxml"))));
+        primaryStage.setTitle("Snap Access");
+        primaryStage.show();
+        primaryStage.centerOnScreen();
+
+        // Start server in a separate thread to not block JavaFX UI thread
+        new Thread(this::startServer).start();
+    }
+
     public static void main(String[] args) {
+        launch(args);
+    }
+
+    private void startServer() {
         // Creating snap-access directory
         File saveDir = new File(SAVE_DIRECTORY);
         if (!saveDir.exists() && !saveDir.mkdirs()) {
