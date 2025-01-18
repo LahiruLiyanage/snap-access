@@ -5,22 +5,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" prefHeight="750.0" prefWidth="850.0" stylesheets="@../style/ClientDashBoard.css"
-            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="lk.ijse.dep13.snapaccess.client.controller.ScreenShareController">
+<AnchorPane fx:id="root" prefHeight="750.0" prefWidth="850.0" stylesheets="@../style/ClientDashBoard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep13.snapaccess.client.controller.ScreenShareController">
     <children>
-        <ImageView fitHeight="750.0" fitWidth="850.0" pickOnBounds="true" preserveRatio="true"
-                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <ImageView fx:id="imgBackground" fitHeight="750.0" fitWidth="850.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <image>
                 <Image url="@../image/background.jpg" />
             </image>
         </ImageView>
-        <ImageView fx:id="imgScreen" fitHeight="478.0" fitWidth="850.0" pickOnBounds="true" preserveRatio="true"
-                   AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="150.0" />
-        <Text fx:id="lblTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="name"
-              text="Screen Share" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="30.0" />
-        <Text fx:id="lblDescription" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="description"
-              text="Remote Desktop Client Application" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="90.0" />
+        <ImageView fx:id="imgScreen" fitHeight="478.0" fitWidth="850.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="150.0" />
+        <Text fx:id="lblTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="name" text="Screen Share" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="30.0" />
+        <Text fx:id="lblDescription" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="description" text="Remote Desktop Client Application" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="90.0" />
     </children>
 </AnchorPane>

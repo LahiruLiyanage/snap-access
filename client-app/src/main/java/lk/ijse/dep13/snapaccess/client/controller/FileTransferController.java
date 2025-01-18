@@ -1,8 +1,10 @@
 package lk.ijse.dep13.snapaccess.client.controller;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -14,6 +16,14 @@ import java.util.List;
 public class FileTransferController {
 
     public StackPane send;
+    public ImageView imgBackground;
+    public AnchorPane root;
+
+    public void initialize() {
+        imgBackground.fitWidthProperty().bind(root.widthProperty());
+        imgBackground.fitHeightProperty().bind(root.heightProperty());
+        imgBackground.setPreserveRatio(false);
+    }
 
     public void sendOnMouseClicked(MouseEvent event) {
         FileChooser fileChooser = new FileChooser();
