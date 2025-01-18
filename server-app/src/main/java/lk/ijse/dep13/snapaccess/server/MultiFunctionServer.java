@@ -16,7 +16,7 @@ public class MultiFunctionServer extends Application {
 
     private static final int SERVER_PORT = 5050;
     private static final String SAVE_DIRECTORY = System.getProperty("user.home") + "/Downloads/snap-access";
-    private static volatile String selectedFilePath = null; // For tracking selected file to share
+    private static volatile String selectedFilePath = null;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -173,7 +173,39 @@ public class MultiFunctionServer extends Application {
     }
 
     private static void handleScreenShare(ObjectOutputStream oos) {
-        // Existing screen share implementation remains the same
+        try {
+            System.out.println("Handling screen sharing...");
+            Robot robot = new Robot();
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+            oos.writeInt((int) screenSize.getWidth());
+            oos.writeInt((int) screenSize.getHeight());
+            oos.flush();
+
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    BufferedImage screenCapture = robot.createScreenCapture(new Rectangle(screenSize));
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    ImageIO.write(screenCapture, "png", baos);
+                    byte[] imageBytes = baos.toByteArray();
+
+                    oos.writeObject(imageBytes);
+                    oos.flush();
+                    oos.reset();
+
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                } catch (Exception e) {
+                    System.err.println("Error capturing screen: " + e.getMessage());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error during screen sharing: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private static File ensureUniqueFileName(File file) {
