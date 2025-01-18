@@ -47,7 +47,7 @@
                             </graphic>
                         </Button>
                         <Line endX="140.0" />
-                        <Button fx:id="btnLogout" mnemonicParsing="false" styleClass="alt_menu_btn" text=" Logout">
+                        <Button fx:id="btnLogout" mnemonicParsing="false" styleClass="alt_menu_btn" text="Exit">
                             <graphic>
                                 <FontAwesomeIconView glyphName="EXTERNAL_LINK" size="20" />
                             </graphic>
