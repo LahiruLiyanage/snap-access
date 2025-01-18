@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -12,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="750.0" prefWidth="850.0" stylesheets="@../style/ClientDashBoard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep13.snapaccess.client.controller.ClientDashBoardController">
+<AnchorPane prefHeight="750.0" prefWidth="850.0" stylesheets="@../style/ServerDashBoard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep13.snapaccess.server.controller.ServerDashBoardController">
     <children>
       <ImageView fitHeight="750.0" fitWidth="862.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
@@ -22,8 +21,8 @@
         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="name" text="Snap Access" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="30.0" />
         <VBox layoutX="22.0" layoutY="152.0" prefHeight="206.0" prefWidth="236.0" styleClass="container" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="152.0">
             <children>
-                <Label text="Ip Address: " />
-                <TextField fx:id="txtIoAddress" promptText="127.0.0.1">
+                <Label text="Server Ip Address: " />
+                <TextField fx:id="txtIoAddress">
                <font>
                   <Font size="20.0" />
                </font></TextField>
@@ -45,6 +44,5 @@
             </children>
         </VBox>
       <Text layoutX="20.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="description" text="Remote Desktop Client Application" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="90.0" />
-          <Button fx:id="btnConnect" defaultButton="true" layoutX="32.0" layoutY="382.0" mnemonicParsing="false" onAction="#btnConnectOnAction" prefHeight="42.0" prefWidth="216.0" styleClass="Button" text="Connect" AnchorPane.leftAnchor="32.0" AnchorPane.topAnchor="382.0" />
     </children>
 </AnchorPane>

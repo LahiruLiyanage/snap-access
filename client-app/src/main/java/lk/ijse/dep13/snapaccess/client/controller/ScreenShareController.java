@@ -14,6 +14,7 @@ import java.net.Socket;
 public class ScreenShareController {
     public AnchorPane root;
     public ImageView imgScreen;
+    public ImageView imgBackground;
     private Socket socket;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
@@ -24,6 +25,10 @@ public class ScreenShareController {
         imgScreen.fitWidthProperty().bind(root.widthProperty());
         imgScreen.fitHeightProperty().bind(root.heightProperty());
         imgScreen.setPreserveRatio(true);
+
+        imgBackground.fitWidthProperty().bind(root.widthProperty());
+        imgBackground.fitHeightProperty().bind(root.heightProperty());
+        imgBackground.setPreserveRatio(false);
 
         Task<Void> connectionTask = new Task<>() {
             @Override

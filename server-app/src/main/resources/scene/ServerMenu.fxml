@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="180.0" styleClass="main_menu_container" stylesheets="@../style/ServerMenu.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep13.snapaccess.server.controller.ServerMenuController">
+    <children>
+        <AnchorPane prefHeight="730.0" prefWidth="155.0" styleClass="left_container">
+            <children>
+                <VBox prefHeight="100.0" prefWidth="160.0" styleClass="title_container" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <FontAwesomeIconView glyphName="DESKTOP" size="30" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Snap-Access" />
+                    </children>
+                </VBox>
+                <VBox prefHeight="350.0" prefWidth="160.0" styleClass="menu_container" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+                    <children>
+                  <Line endX="140.0" />
+                        <Button fx:id="btnDashBoard" mnemonicParsing="false" onAction="#btnDashBoardOnAction" styleClass="alt_menu_btn" text=" DashBoard">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="COMPRESS" size="20" />
+                            </graphic>
+                        </Button>
+                  <Line endX="140.0" />
+                        <Button fx:id="btnScreenShare" mnemonicParsing="false" onAction="#btnScreenShareOnAction" text="Screen Share">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="DESKTOP" size="20" />
+                     </graphic></Button>
+                  <Button fx:id="btnFileShare" mnemonicParsing="false" onAction="#btnFileShareOnAction" text=" File Sharing">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="FILE" size="20" />
+                     </graphic>
+                  </Button>
+                        <Button fx:id="btnVideoCall" mnemonicParsing="false" onAction="#btnVideoCallOnAction" text=" VIdeo Call">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="VIDEO_CAMERA" size="20" />
+                            </graphic>
+                        </Button>
+                        <Button fx:id="btnChat" mnemonicParsing="false" onAction="#btnChatOnAction" text=" Chat">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="COMMENTS" size="20" />
+                            </graphic>
+                        </Button>
+                        <Line endX="140.0" />
+                        <Button fx:id="btnLogout" mnemonicParsing="false" styleClass="alt_menu_btn" text="Exit">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="EXTERNAL_LINK" size="20" />
+                            </graphic>
+                        </Button>
+                    </children>
+                </VBox>
+                <VBox alignment="TOP_CENTER" prefHeight="120.0" prefWidth="130.0" styleClass="report_container" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+                    <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Report Suggestion/ Bug?" />
+                        <Label text="Use this to report any errors or suggestions" />
+                        <Button fx:id="btnReport" mnemonicParsing="false" onAction="#btnReportOnAction" text="Report">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="PLUS" />
+                            </graphic>
+                        </Button>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </children>
+</VBox>
