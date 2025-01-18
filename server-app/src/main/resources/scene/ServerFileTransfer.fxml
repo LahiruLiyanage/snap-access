@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" prefHeight="750.0" prefWidth="850.0" stylesheets="@../style/FileTransfer.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep13.snapaccess.server.controller.FileTransferController">
+<AnchorPane fx:id="root" prefHeight="750.0" prefWidth="850.0" stylesheets="@../style/FileTransfer.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.dep13.snapaccess.server.controller.ServerFileTransferController">
     <children>
         <ImageView fx:id="imgBackground" fitHeight="750.0" fitWidth="862.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <image>

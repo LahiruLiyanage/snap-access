@@ -14,7 +14,7 @@ public class AppRouter {
     public static AnchorPane getContainer(Routes route) throws IOException {
         AnchorPane container = null;
         switch (route) {
-            case FILE_TRANSFER -> container = FXMLLoader.load(AppRouter.class.getResource("/scene/FileTransfer.fxml"));
+            case FILE_TRANSFER -> container = FXMLLoader.load(AppRouter.class.getResource("/scene/ClientFileTransfer.fxml"));
             case SCREENSHARE -> container = FXMLLoader.load(AppRouter.class.getResource("/scene/ScrenShare.fxml"));
             default -> container = FXMLLoader.load(AppRouter.class.getResource("/scene/ClientDashBoard.fxml"));
 
