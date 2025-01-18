@@ -39,7 +39,7 @@
                         <Font size="15.0" />
                      </font>
                   </Text>
-                  <FontAwesomeIconView glyphName="CIRCLE" size="20" />
+                  <FontAwesomeIconView fx:id="connectionStatus" glyphName="CIRCLE" size="20" />
                </children>
             </HBox>
             </children>

@@ -1,5 +1,6 @@
 package lk.ijse.dep13.snapaccess.server.controller;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.TextField;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -8,10 +9,12 @@ import java.util.Random;
 public class ServerDashBoardController {
     public TextField txtConformation;
     public TextField txtIoAddress;
+    public FontAwesomeIconView connectionStatus;
 
     public void initialize() {
         setIoAddress();
         setRandomConfirmation();
+        connectionStatus.setStyle("-fx-fill: #acacac;");
     }
 
     private void setIoAddress() {
