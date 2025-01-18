@@ -19,8 +19,8 @@ public class FileTransferController {
 
     public void sendOnDragDropped(DragEvent event) {
         List<File> files = event.getDragboard().getFiles();
-        if (files.size() > 0) {
-            handleFileSelection(files.get(0));
+        if (!files.isEmpty()) {
+            MultiFunctionServer.setSelectedFile(files.get(0).getAbsolutePath());
         }
         event.setDropCompleted(true);
         event.consume();
