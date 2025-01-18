@@ -9,7 +9,7 @@
 - Lahiru Sadhamal
 
 ### Version
-0.1.0
+0.2.0
 
 ### License
 Copyright &copy; 2025 Snap-Access. All Rights Reserved.  
