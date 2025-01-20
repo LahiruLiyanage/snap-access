@@ -214,7 +214,7 @@ public class MultiFunctionServer extends Application {
         }
     }
 
-    private static File ensureUniqueFileName(File file) {
+    public static File ensureUniqueFileName(File file) {
         String name = file.getName();
         String baseName = name.contains(".") ? name.substring(0, name.lastIndexOf('.')) : name;
         String extension = name.contains(".") ? name.substring(name.lastIndexOf('.')) : "";
