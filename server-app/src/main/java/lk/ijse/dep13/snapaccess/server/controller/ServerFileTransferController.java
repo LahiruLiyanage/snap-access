@@ -12,7 +12,11 @@ import javafx.stage.FileChooser;
 import lk.ijse.dep13.snapaccess.server.MultiFunctionServer;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.List;
+
+import static lk.ijse.dep13.snapaccess.server.MultiFunctionServer.ensureUniqueFileName;
 
 public class ServerFileTransferController {
     public ImageView imgBackground;
@@ -62,20 +66,36 @@ public class ServerFileTransferController {
         }
     }
 
-    private void handleFileSelection(File file) {
+    private void handleFileSelection(File sourceFile) {
         try {
-            if (!file.exists() || !file.isFile()) {
+            if (!sourceFile.exists() || !sourceFile.isFile()) {
                 showError("Invalid file selected");
                 return;
             }
 
-            lastSelectedFile = file;
+            File saveDir = new File(System.getProperty("user.home") + "/Downloads/snap-access");
+            if (!saveDir.exists() && !saveDir.mkdirs()) {
+                showError("Failed to create destination directory");
+                return;
+            }
 
-            MultiFunctionServer.setSelectedFile(file.getAbsolutePath());
+            File destFile = new File(saveDir, sourceFile.getName());
+            destFile = ensureUniqueFileName(destFile);
 
+            // Copy the file
+            try (FileInputStream fis = new FileInputStream(sourceFile);
+                 FileOutputStream fos = new FileOutputStream(destFile)) {
+                byte[] buffer = new byte[8192];
+                int length;
+                while ((length = fis.read(buffer)) > 0) {
+                    fos.write(buffer, 0, length);
+                }
+            }
+
+            lastSelectedFile = destFile;
+            MultiFunctionServer.setSelectedFile(destFile.getAbsolutePath());
             send.setStyle("-fx-background-color: rgba(0, 255, 0, 0.1);");
-
-            showSuccess("File ready to share: " + file.getName());
+            showSuccess("File copied successfully: " + destFile.getName());
 
             new Thread(() -> {
                 try {
@@ -88,7 +108,7 @@ public class ServerFileTransferController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            showError("Error preparing file: " + e.getMessage());
+            showError("Error copying file: " + e.getMessage());
             send.setStyle("-fx-background-color: rgba(255, 0, 0, 0.1);");
         }
     }
