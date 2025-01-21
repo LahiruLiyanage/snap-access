@@ -28,6 +28,13 @@
         </dependency>
 
         <dependency>
+            <groupId>io.mraa.upm</groupId>
+            <artifactId>upm_mic</artifactId>
+            <version>1.7.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>23</version>
