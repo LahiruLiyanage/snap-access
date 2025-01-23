@@ -24,6 +24,7 @@ public class ServerVideoCallController {
     private static final DataLine.Info sourceInfo = new DataLine.Info(SourceDataLine.class, format);
     private static final int AUDIO_PORT = 8080;
     private static final int VIDEO_PORT = 8081;
+    private static volatile boolean videoServerStarted = false;
 
     public ImageView imgCamera;
     public AnchorPane root;
@@ -34,35 +35,31 @@ public class ServerVideoCallController {
     public ImageView imgStartAudio;
     public ImageView imgStartVideo;
     private Thread videoThread;
-    private Socket audioSocket;
     private Socket videoSocket;
     private SourceDataLine sourceLine;
-    private static ServerSocket serverSocket;
-    private static Socket clientSocket;
     private static TargetDataLine targetLine;
-    ExecutorService executorService;
+    private static Socket clientSocket;
+    public static Webcam webcam;
     private boolean isAudioMuted = false;
     private boolean isCameraOn = true;
-    private static boolean isAudioServerRunning = false;
     final String ipAddress = "127.0.0.1";
 
-    public void initialize() {
-        executorService = Executors.newFixedThreadPool(2);
+    static {
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.submit(() -> startAudioServer());
         executorService.submit(() -> startVideoServer());
+    }
 
-        new Thread(this::startAudioClient).start();
+    public void initialize() {
         startVideoClient();
+        new Thread(this::startAudioClient).start();
         imgStartAudio.setVisible(false);
         imgStartVideo.setVisible(false);
     }
 
     private static void startAudioServer() {
-        try {
-            serverSocket = new ServerSocket(AUDIO_PORT);
-            isAudioServerRunning = true;
+        try (ServerSocket serverSocket = new ServerSocket(AUDIO_PORT)) {
             System.out.println("Audio Server started on port " + AUDIO_PORT);
-
             clientSocket = serverSocket.accept();
             System.out.println("Client connected to Audio");
 
@@ -72,7 +69,8 @@ public class ServerVideoCallController {
 
             OutputStream outputStream = clientSocket.getOutputStream();
             byte[] buffer = new byte[1024];
-            while (isAudioServerRunning) {
+
+            while (true) {
                 int bytesRead = targetLine.read(buffer, 0, buffer.length);
                 if (bytesRead > 0) {
                     outputStream.write(buffer, 0, bytesRead);
@@ -84,29 +82,24 @@ public class ServerVideoCallController {
     }
 
     private static void stopAudioServer() {
-        if (isAudioServerRunning) {
-            try {
-                if (targetLine != null && targetLine.isOpen()) {
-                    targetLine.stop();
-                    targetLine.close();
-                }
-                if (clientSocket != null && !clientSocket.isClosed()) {
-                    clientSocket.close();
-                }
-                if (serverSocket != null && !serverSocket.isClosed()) {
-                    serverSocket.close();
-                    isAudioServerRunning = false;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        try {
+            if (targetLine != null && targetLine.isOpen()) {
+                targetLine.stop();
+                targetLine.close();
             }
+            if (clientSocket != null && !clientSocket.isClosed()) {
+                clientSocket.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     private static void startVideoServer() {
-        Webcam webcam = Webcam.getDefault();
+        webcam = Webcam.getDefault();
         webcam.open();
         try (ServerSocket serverSocket = new ServerSocket(VIDEO_PORT)) {
+            videoServerStarted = true;
             System.out.println("Video Server started on port " + VIDEO_PORT);
             while (true) {
                 System.out.println("Waiting for video client connection...");
@@ -122,6 +115,7 @@ public class ServerVideoCallController {
                         while (!localSocket.isClosed()) {
                             try {
                                 BufferedImage image = webcam.getImage();
+                                if (image == null) continue;
                                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                                 ImageIO.write(image, "jpg", baos);
                                 oos.writeObject(baos.toByteArray());
@@ -145,13 +139,12 @@ public class ServerVideoCallController {
     }
 
     private static void stopVideoServer(){
-        Webcam webcam = Webcam.getDefault();
         webcam.close();
     }
 
     private void startAudioClient() {
         try {
-            audioSocket = new Socket(ipAddress, AUDIO_PORT);
+            Socket audioSocket = new Socket(ipAddress, AUDIO_PORT);
             InputStream inputStream = audioSocket.getInputStream();
             System.out.println("Connected to Audio");
 
@@ -161,6 +154,7 @@ public class ServerVideoCallController {
 
             byte[] buffer = new byte[1024];
             int bytesRead;
+
             while ((bytesRead = inputStream.read(buffer)) != -1 && !audioSocket.isClosed()) {
                 if (!isAudioMuted) {
                     sourceLine.write(buffer, 0, bytesRead);
@@ -172,6 +166,7 @@ public class ServerVideoCallController {
     }
 
     private void startVideoClient() {
+        while (!videoServerStarted) Thread.onSpinWait();
         if (!isCameraOn) return;
         imgCamera.fitWidthProperty().bind(root.widthProperty());
         imgCamera.fitHeightProperty().bind(root.heightProperty());
@@ -195,29 +190,29 @@ public class ServerVideoCallController {
                 return null;
             }
         };
+        task.setOnFailed(e -> System.out.println(e.getSource()));
         imgCamera.imageProperty().bind(task.valueProperty());
         videoThread = new Thread(task);
         videoThread.start();
     }
 
-    public void imgStopAudioOnMouseClicked(MouseEvent mouseEvent) throws LineUnavailableException {
-        if (sourceLine != null && sourceLine.isOpen()) {
-            isAudioMuted = true;
-            sourceLine.stop();
-            System.out.println("Audio Muted");
-        }
+    public void imgStopAudioOnMouseClicked(MouseEvent mouseEvent) {
         imgStopAudio.setVisible(false);
         imgStartAudio.setVisible(true);
+        if (sourceLine != null && sourceLine.isOpen()) {
+            isAudioMuted = true;
+            System.out.println("Audio Muted");
+        }
     }
 
     public void imgStartAudioOnMouseClicked(MouseEvent mouseEvent) {
+        imgStartAudio.setVisible(false);
+        imgStopAudio.setVisible(true);
         if (sourceLine != null && sourceLine.isOpen()) {
             isAudioMuted = false;
             sourceLine.start();
             System.out.println("Audio Unmuted");
         }
-        imgStartAudio.setVisible(false);
-        imgStopAudio.setVisible(true);
     }
 
     public void imgStopVideoOnMouseClicked(MouseEvent mouseEvent) {
@@ -240,9 +235,9 @@ public class ServerVideoCallController {
     }
 
     public void imgStartVideoOnMouseClicked(MouseEvent mouseEvent) throws InterruptedException {
-        startVideoServer();
         imgStartVideo.setVisible(false);
         imgStopVideo.setVisible(true);
+        webcam.open();
         if (!isCameraOn) {
             isCameraOn = true;
             imgCamera.setVisible(true);
@@ -253,35 +248,20 @@ public class ServerVideoCallController {
     }
 
     public void imgDisconnectOnMouseClicked(MouseEvent mouseEvent) throws IOException {
-        stopAudioServer();
-        stopVideoServer();
-        if (Webcam.getDefault().isOpen()) {
-            Webcam.getDefault().close();
+        if (sourceLine != null && sourceLine.isOpen()) {
+            isAudioMuted = true;
+            sourceLine.stop();
+            stopAudioServer();
         }
-
         if (videoSocket != null && !videoSocket.isClosed()) {
             try {
                 videoSocket.close();
-                if (videoThread != null) {
-                    videoThread.interrupt();
-                }
+                videoThread.interrupt();
+                stopVideoServer();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
-        if (audioSocket != null && !audioSocket.isClosed()) {
-            try {
-                audioSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (executorService != null && !executorService.isShutdown()) {
-            executorService.shutdownNow();
-        }
-
         ((Stage) (root.getScene().getWindow())).setScene(new Scene(FXMLLoader.load(getClass().getResource("/scene/Server.fxml"))));
     }
 }

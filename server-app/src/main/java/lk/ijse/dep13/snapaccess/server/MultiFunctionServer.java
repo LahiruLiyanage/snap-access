@@ -1,6 +1,5 @@
 package lk.ijse.dep13.snapaccess.server;
 
-import com.github.sarxos.webcam.Webcam;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,10 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import javax.imageio.ImageIO;
-import javax.sound.sampled.*;
 
 public class MultiFunctionServer extends Application {
 
